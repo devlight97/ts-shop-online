@@ -1,0 +1,20 @@
+{
+  "version": "independent",
+  "author": "Quang Dev",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "ignoreChanges": ["./deploy", "*.md", "yarn.lock"],
+      "conventionalCommits": true,
+      "registry": "https://github.com/devlight97/shop-online-package.git",
+      "access": "public",
+      "message": "chore: shop-app release new version"
+    }
+  },
+  "packages": [
+    "services/*",
+    "packages/*",
+    "env/*"
+  ]
+}

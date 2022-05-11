@@ -1,0 +1,1 @@
+export const WEB_APP_HOST = process.env.WEB_APP_HOST || 'http://localhost:3001'

@@ -1,0 +1,82 @@
+{
+  "name": "ts-shop-online",
+  "version": "0.0.1",
+  "description": "shop online is a personal project",
+  "main": "index.js",
+  "author": "Quang Dev",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "services/*",
+    "env/*"
+  ],
+  "scripts": {
+    "package:all": "lerna bootstrap",
+    "build": "lerna run build --scope=@services/*",
+    "changed": "lerna changed --json",
+    "alpha": "yarn run build && yarn run alpha:nexus",
+    "alpha:nexus": "GH_TOKEN=8fb87aa7280811fe9ca5c6075ae718a2e8020a68 lerna publish --npm-tag=alpha --skip-git --yes",
+    "commit": "git-cz",
+    "dev:pk": "lerna run dev --stream --scope",
+    "build:pk": "lerna run build --stream --scope",
+    "start:pk": "lerna run start --stream --scope",
+    "be": "lerna exec --scope='*/$npm_config_component.js' -- yarn start:dev",
+    "test": "ts-node -r tsconfig-paths/register src/index.ts"
+  },
+  "devDependencies": {
+    "@types/mongodb": "3.6.20",
+    "@types/node": "12.0.0",
+    "babel-loader": "8.0.5",
+    "git-cz": "3.0.1",
+    "husky": "^2.2.0",
+    "jest": "^24.9.0",
+    "lerna": "3.16.4",
+    "lerna-changelog": "0.8.2",
+    "lint-staged": "8.1.5",
+    "lodash": "^4.17.21",
+    "nodemon": "1.19.3",
+    "prettier": "2.0.5",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "6.2.0",
+    "ts-node": "8.4.1",
+    "tsconfig-paths": "3.9.0",
+    "tsconfig-paths-webpack-plugin": "3.2.0",
+    "tslint": "6.1.2",
+    "typescript": "3.9.9",
+    "webpack": "4.41.0",
+    "webpack-cli": "3.3.9",
+    "webpack-node-externals": "1.7.2",
+    "yarn": "^1.22.4"
+  },
+  "changelog": {
+    "repo": "changelog",
+    "labels": {
+      "breaking": ":boom: Breaking Change",
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":memo: Documentation",
+      "internal": ":house: Internal",
+      "ci": ":house: Update",
+      "chore": ":house: Chore"
+    },
+    "cacheDir": ".changelog"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional",
+      "@commitlint/config-lerna-scopes"
+    ]
+  },
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

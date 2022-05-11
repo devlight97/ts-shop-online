@@ -1,0 +1,105 @@
+{
+	"artificialDelayMilliseconds": 300,
+	"keepExistingTerminalsOpen": true,
+	"runOnStartup": true,
+	"terminals": [
+		{
+			"splitTerminals": [
+				{
+					"name": "grove-access-controls",
+					"commands": [
+						"cd ./services/grove-access-controls/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "grove-core",
+					"commands": [
+						"cd ./services/grove-core/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "grove-job-schedulers",
+					"commands": [
+						"cd ./services/grove-job-schedulers/"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "grove-time-off",
+					"commands": [
+						"cd ./services/grove-time-off/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "identity",
+					"commands": [
+						"cd ./services/identity/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "notification",
+					"commands": [
+						"cd ./services/notification/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "recruitment-integration",
+					"commands": [
+						"cd ./services/recruitment-integration/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "storage",
+					"commands": [
+						"cd ./services/storage/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		},
+		{
+			"splitTerminals": [
+				{
+					"name": "tenant-management",
+					"commands": [
+						"cd ./services/tenant-management/",
+						"yarn start:vpn"
+					]
+				}
+			]
+		}
+	]
+}

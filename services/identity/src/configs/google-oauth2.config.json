@@ -1,0 +1,6 @@
+{
+    "clientId": "878722088107-g3a1a44g52ushfvm134i5976dhn9gb54.apps.googleusercontent.com",
+    "clientSecret": "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",
+    "redirectUris": ["http://localhost:8001/auth/google/callback"],
+    "javascriptOrigins": "http://localhost:3001"
+}

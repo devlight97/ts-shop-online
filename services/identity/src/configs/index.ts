@@ -1,0 +1,1 @@
+export const GG_OAUTH2_CREDENTIAL_PATH = `${process.cwd()}/src/configs/google-oauth2.config.json`
