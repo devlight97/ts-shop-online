@@ -1,9 +1,9 @@
 {
   "name": "@packages/env",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@packages/socket": "^0.0.1",
     "lodash": "4.17.21"
   }
 }

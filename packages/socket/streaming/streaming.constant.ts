@@ -1,0 +1,9 @@
+// export enum STREAMING {
+//   CONNECT_TO_STREAM = 'SOCKET:STREAMMING:CONNECT_TO_STREAM',
+// }
+
+const socketType = 'SOCKET:STREAMING'
+
+export const STREAMING = {
+  CONNECT_TO_STREAM: `${socketType}:CONNECT_TO_STREAM`,
+}

@@ -16,12 +16,15 @@
     "paths": {
       "@packages/*": ["./packages/*/src"],
       "@services/*": ["./services/*/src"],
-      "env": ["./packages/env"]
+      "env": ["./packages/env"],
+      "@components/*": ["./services/webapp/components/*"]
     }
   },
   "include": [
     "./packages/*/src/**/*.ts",
-    "./services/*/src/**/*.ts"
+    "./services/*/src/**/*.ts",
+    "packages/build/src/index.js",
+    "packages/build/src/webpack.config.base.js"
   ],
   "exclude": ["node_modules", "nestjs", "**/*.spec.ts", "**/__mocks__/**/*.ts", "**/__test__/**/*.ts"]
 }

@@ -7,6 +7,7 @@
     "@nestjs/jwt": "8.0.0",
     "@packages/common": "^0.0.1",
     "@packages/env": "^1.0.0",
+    "@packages/socket": "^0.0.1",
     "env": "^0.0.2",
     "fast-json-stringify": "3.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.11",

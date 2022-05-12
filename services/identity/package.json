@@ -29,6 +29,7 @@
     "@packages/common": "^0.0.1",
     "@packages/core": "^0.0.1",
     "@packages/env": "^1.0.0",
+    "@packages/socket": "^0.0.1",
     "fast-json-stringify": "3.2.0",
     "fork-ts-checker-webpack-plugin": "7.2.11",
     "google-auth-library": "8.0.2",

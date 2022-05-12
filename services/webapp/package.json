@@ -3,20 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "nodemon server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@nestjs/jwt": "8.0.0",
-    "@packages/common": "^0.0.1",
     "@packages/env": "^1.0.0",
+    "@packages/socket": "^0.0.1",
     "@types/lodash": "4.14.182",
-    "env": "^0.0.2",
+    "http-proxy-middleware": "0.19.1",
     "lodash": "4.17.21",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "socket.io-client": "4.5.0",
     "styled-components": "5.3.5"
   },
   "devDependencies": {
