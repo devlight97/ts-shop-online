@@ -5,12 +5,12 @@ import { isNil } from 'lodash'
 import { GoogleSignInButton } from '@components/button'
 // import { GoogleSignIn } from '@components/google-sign-in.component'
 
-const SignIn: NextPage = () => {
+const SignInPage: NextPage = () => {
 	const router = useRouter()
 	const accessToken = router.query?.access_token as string
 
 	if (isNil(accessToken)) {
-		const error = router.query?.error as string
+		// const error = router.query?.error as string
 	}
 
 	return (
@@ -21,4 +21,4 @@ const SignIn: NextPage = () => {
 	)
 }
 
-export default SignIn
+export default SignInPage

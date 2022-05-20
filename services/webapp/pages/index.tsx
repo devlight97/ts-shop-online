@@ -3,12 +3,7 @@ import * as React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { STREAMING } from '@packages/socket'
-import { socket } from '@services/event.service'
-
 import styles from '../styles/Home.module.css'
-
-socket.emit(STREAMING.CONNECT_TO_STREAM, { text: 'Hello Socket Server' })
 
 const Home: NextPage = () => {
   return (

@@ -3,7 +3,7 @@ export const PORTS = {
   IDENTITY_SERVICE: 8008,
   NOTIFICATION_SERVICE: 8009,
   SHOP_CORE_SERVICE: 8000,
-  VIDEO_STREAM: 8001,
+  VIDEO_STREAM: 8005,
 }
 export const WEB_APP_HOST = process.env.WEB_APP_HOST || `http://localhost:${PORTS.WEB_APP}`
 export const IDENTITY_SERVICE_HOST = process.env.IDENTITY_SERVICE_HOST || `http://localhost:${PORTS.IDENTITY_SERVICE}`

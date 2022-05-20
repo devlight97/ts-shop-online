@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "ngrok": "ngrok http 8005",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -61,7 +62,8 @@
     "ts-loader": "9.2.3",
     "ts-node": "10.0.0",
     "tsconfig-paths": "3.10.1",
-    "typescript": "4.3.5"
+    "typescript": "4.3.5",
+    "ngrok": "4.3.1"
   },
   "jest": {
     "moduleFileExtensions": [

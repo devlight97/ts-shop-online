@@ -24,14 +24,14 @@ export class ChattingGateway implements OnGatewayInit, OnGatewayConnection, OnGa
   }
 
   afterInit(server: Server) {
-    this.logger.log('Init')
+    // this.logger.log('Init')
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Client disconnected: ${client.id}`)
+    // this.logger.log(`Client disconnected: ${client.id}`)
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`)
+    // this.logger.log(`Client connected: ${client.id}`)
   }
 }
