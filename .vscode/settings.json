@@ -1,5 +1,21 @@
 {
-    "editor.tabSize": 2,
-    "tslint.configFile": "./tslint.json",
-    "editor.formatOnSave": false
+  "editor.tabSize": 2,
+  "tslint.configFile": "./tslint.json",
+  "editor.formatOnSave": false,
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "askForPassword": true,
+      "driver": "MySQL",
+      "name": "ts-shop-online",
+      "database": "ts_shop_online",
+      "username": "root",
+      "connectString": "server=127.0.0.1;uid=root;pwd=123456;database=ts_shop_online"
+    }
+  ]
 }

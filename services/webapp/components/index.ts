@@ -1,2 +1,5 @@
-export * from './button'
-export * from './google-sign-in.component'
+export * from './google-sign-in-button'
+export * from './HeadTag'
+export * from './layout'
+export * from './product-view'
+export * from './pagination-bar'

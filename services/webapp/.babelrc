@@ -2,16 +2,14 @@
   "presets": ["next/babel"],
   "plugins": [
     [
-      "styled-components",
+      "babel-plugin-styled-components",
       {
         "ssr": true,
-        "displayName": true,
-        "preprocess": false
+        "displayName": true
       }
     ],
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": false }]
-    // ["@babel/plugin-proposal-optional-chaining"],
-    // ["@babel/plugin-syntax-dynamic-import"]
+    // ["@babel/plugin-proposal-optional-chaining"]
   ]
 }

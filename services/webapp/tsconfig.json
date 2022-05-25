@@ -23,7 +23,8 @@
     "paths": {
       "@components": ["./components"],
       "@components/*": ["./components/*"],
-      "@services/*": ["./services/*"]
+      "@services/*": ["./services/*"],
+      "@models/*": ["./models/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

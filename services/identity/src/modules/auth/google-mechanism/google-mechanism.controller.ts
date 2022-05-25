@@ -13,7 +13,7 @@ export class GoogleMechanismController {
   }
 
   @Post('callback')
-  async login(@Res() res: Response, @Req() req: Request): Promise<void> {
+  async login(@Req() req: Request, @Res() res: Response): Promise<void> {
     const { credential: idToken, clientId } = req.body
     const url = await this.ggMechanismSvc.handleGoogleOAuth2Callback(clientId, idToken)
 

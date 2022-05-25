@@ -9,6 +9,7 @@ import {
 import { Socket, Server } from 'socket.io'
 import { Logger } from '@nestjs/common'
 
+import { STREAMING } from '@packages/socket'
 import { StreamingService } from './streaming.service'
 import { isNil } from 'lodash'
 
@@ -35,7 +36,7 @@ export class StreamingGateway implements OnGatewayInit, OnGatewayConnection, OnG
     this.logger.log(`Client connected: ${client.id}`)
   }
 
-  @SubscribeMessage('streamer-initiate')
+  @SubscribeMessage(STREAMING.STREAMER_INITIATE)
   streamerInitiate(client: Socket, payload: any): void {
     const channel = this.service.findByName(payload)
     if (isNil(channel)) {
@@ -45,31 +46,31 @@ export class StreamingGateway implements OnGatewayInit, OnGatewayConnection, OnG
     channel.socketId = client.id
   }
 
-  @SubscribeMessage('streamer-description')
-  streamerDescription(client: Socket, payload: any): void {
+  @SubscribeMessage(STREAMING.STREAMER_SEND_DESCRIPTION)
+  streamerSendDescription(client: Socket, payload: any): void {
     const [id, description] = payload
-    this.socket.to(id).emit('streamer-description', client.id, description)
+    this.socket.to(id).emit(STREAMING.STREAMER_SEND_DESCRIPTION, client.id, description)
   }
 
-  @SubscribeMessage('watcher-subscribe')
+  @SubscribeMessage(STREAMING.WATCHER__SUBSCRIBE)
   watcherSubscribe(client: Socket, name: string): void {
     const channel = this.service.findByName(name)
     if (isNil(channel)) {
       this.logger.error('channel name not found')
       return
     }
-    this.socket.to(channel.socketId).emit('watcher-subscribe', client.id)
+    this.socket.to(channel.socketId).emit(STREAMING.WATCHER__SUBSCRIBE, client.id)
   }
 
-  @SubscribeMessage('watcher-description')
+  @SubscribeMessage(STREAMING.WATCHER_SEND_DESCRIPTION)
   async watcherSendDescription(client: Socket, payload: [string, { type: string; sdp: string }]): Promise<void> {
     const [channelId, description] = payload
-    this.socket.to(channelId).emit('watcher-description', client.id, description)
+    this.socket.to(channelId).emit(STREAMING.WATCHER_SEND_DESCRIPTION, client.id, description)
   }
 
-  @SubscribeMessage('candidate')
+  @SubscribeMessage(STREAMING.ADD_CANDIDATE)
   async candidate(client: Socket, payload: [string, { type: string; sdp: string }]): Promise<void> {
     const [receiverId, data] = payload
-    this.socket.to([receiverId, client.id]).emit('candidate', data)
+    this.socket.to([receiverId, client.id]).emit(STREAMING.ADD_CANDIDATE, data)
   }
 }

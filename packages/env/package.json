@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
+    "@packages/common": "^0.0.1",
+    "@packages/core": "^0.0.1",
     "@packages/socket": "^0.0.1",
     "lodash": "4.17.21"
   }

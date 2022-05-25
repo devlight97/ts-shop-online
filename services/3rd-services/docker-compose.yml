@@ -1,18 +1,14 @@
-version: '3.9' # optional since v1.27.0
+version: '3.8'
+
 services:
-  mysql-ts-shop:
+  mysqldb:
     image: mysql
-    cap_add:
-      - SYS_NICE
-    restart: always
+    restart: unless-stopped
+    env_file: ./.env
     environment:
-      - MYSQL_DATABASE=ts-shop-db
-      - MYSQL_ROOT_PASSWORD=quang123
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
     ports:
-      - '3306:3306'
-    volumes:
-      - db:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-volumes:
-  db:
-    driver: local
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+    # volumes:
+      # - ./db:/var/lib/mysql

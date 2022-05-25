@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { isNil } from 'lodash'
 
+import { STREAMING, iceServerConfig } from '@packages/socket'
 import { socket } from '@services/event.service'
 
 const VideoContainer = styled.div`
@@ -28,14 +29,6 @@ export const VideoStreamPage: NextPage = () => {
 
   const router = useRouter()
 
-  const config = {
-    iceServers: [
-      {
-        urls: ['stun:stun.l.google.com:19302'],
-      },
-    ],
-  }
-
   React.useEffect(() => {
     if (isNil(localVideoEl)) {
       return
@@ -45,8 +38,40 @@ export const VideoStreamPage: NextPage = () => {
       return
     }
 
+    const initConnection = async () => {
+      const peerConnections: Record<string, RTCPeerConnection> = {}
+
+      socket.on(STREAMING.WATCHER__SUBSCRIBE, async (watcherId: string) => {
+        const peerConnection = new RTCPeerConnection(iceServerConfig)
+
+        const stream = localVideoEl.srcObject
+        stream.getTracks().forEach((track: any) => {
+          peerConnection.addTrack(track, stream)
+        })
+
+        const offer = await peerConnection.createOffer()
+        await peerConnection.setLocalDescription(new RTCSessionDescription(offer))
+        peerConnections[watcherId] = peerConnection
+        socket.emit(STREAMING.STREAMER_SEND_DESCRIPTION, watcherId, offer)
+      })
+
+      socket.on(STREAMING.WATCHER_SEND_DESCRIPTION, (watcherId: string, description: RTCSessionDescriptionInit) => {
+        peerConnections[watcherId].setRemoteDescription(new RTCSessionDescription(description))
+
+        peerConnections[watcherId].onicecandidate = (event) => {
+          if (isNil(event.candidate)) {
+            return
+          }
+          socket.emit(STREAMING.ADD_CANDIDATE, watcherId, { candidate: event.candidate, watcherId })
+        }
+        socket.on(STREAMING.ADD_CANDIDATE, (data) => {
+          peerConnections[watcherId].addIceCandidate(new RTCIceCandidate(data.candidate))
+        })
+      })
+    }
+
     const initVideoEl = async () => {
-      socket.emit('streamer-initiate', router.query.name)
+      socket.emit(STREAMING.STREAMER_INITIATE, router.query.name)
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         localVideoEl.srcObject = stream
@@ -59,39 +84,6 @@ export const VideoStreamPage: NextPage = () => {
 
     initVideoEl()
   }, [localVideoEl, router.isReady])
-
-  const initConnection = async () => {
-    const peerConnections: Record<string, RTCPeerConnection> = {}
-
-    socket.on('watcher-subscribe', async (watcherId: string) => {
-      const peerConnection = new RTCPeerConnection(config)
-
-      const stream = localVideoEl.srcObject
-      stream.getTracks().forEach((track: any) => {
-        peerConnection.addTrack(track, stream)
-      })
-
-      const offer = await peerConnection.createOffer()
-      await peerConnection.setLocalDescription(new RTCSessionDescription(offer))
-      peerConnections[watcherId] = peerConnection
-      socket.emit('streamer-description', watcherId, offer)
-    })
-
-    socket.on('watcher-description', (watcherId: string, description: RTCSessionDescriptionInit) => {
-      peerConnections[watcherId].setRemoteDescription(new RTCSessionDescription(description))
-
-      peerConnections[watcherId].onicecandidate = (event) => {
-        if (isNil(event.candidate)) {
-          return
-        }
-        socket.emit('candidate', watcherId, { candidate: event.candidate, watcherId })
-      }
-      socket.on('candidate', (data) => {
-        console.log(data.candidate)
-        peerConnections[watcherId].addIceCandidate(new RTCIceCandidate(data.candidate))
-      })
-    })
-  }
 
   return (
     <div>

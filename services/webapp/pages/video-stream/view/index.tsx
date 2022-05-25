@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { isNil } from 'lodash'
 
 import { socket } from '@services/event.service'
+import { STREAMING, iceServerConfig } from '@packages/socket'
 
 const VideoContainer = styled.div`
   position: relative;
@@ -25,14 +26,6 @@ export const VideoStreamViewPage: NextPage = () => {
 
   const router = useRouter()
 
-  const config = {
-    iceServers: [
-      {
-        urls: ['stun:stun.l.google.com:19302'],
-      },
-    ],
-  }
-
   React.useEffect(() => {
     if (isNil(remoteVideoEl)) {
       return
@@ -44,24 +37,23 @@ export const VideoStreamViewPage: NextPage = () => {
 
     const initViewer = async () => {
       const { name } = router.query
-      const peerConnection = new RTCPeerConnection(config)
+      const peerConnection = new RTCPeerConnection(iceServerConfig)
 
-      socket.emit('watcher-subscribe', name)
+      socket.emit(STREAMING.WATCHER__SUBSCRIBE, name)
 
-      socket.on('streamer-description', async (id: string, description: RTCSessionDescriptionInit) => {
+      socket.on(STREAMING.STREAMER_SEND_DESCRIPTION, async (id: string, description: RTCSessionDescriptionInit) => {
         await peerConnection.setRemoteDescription(new RTCSessionDescription(description))
         const answer = await peerConnection.createAnswer()
         await peerConnection.setLocalDescription(new RTCSessionDescription(answer))
-        socket.emit('watcher-description', id, answer)
+        socket.emit(STREAMING.WATCHER_SEND_DESCRIPTION, id, answer)
 
         peerConnection.onicecandidate = (event) => {
           if (isNil(event.candidate)) {
             return
           }
-          socket.emit('candidate', id, { watcherId: socket.id, candidate: event.candidate })
+          socket.emit(STREAMING.ADD_CANDIDATE, id, { watcherId: socket.id, candidate: event.candidate })
         }
-        socket.on('candidate', (data) => {
-          console.log(data.candidate)
+        socket.on(STREAMING.ADD_CANDIDATE, (data) => {
           peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate))
         })
       })

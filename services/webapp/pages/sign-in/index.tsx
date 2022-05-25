@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { isNil } from 'lodash'
 
-import { GoogleSignInButton } from '@components/button'
+import { GoogleSignInButton } from '@components/google-sign-in-button'
 // import { GoogleSignIn } from '@components/google-sign-in.component'
 
 const SignInPage: NextPage = () => {
