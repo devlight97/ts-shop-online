@@ -19,15 +19,11 @@ function localProxy(service, port) {
 }
 
 const PROXIES = {
-  // ...localProxy('business-object', 9002),
-  ...localProxy('core', 8000),
-  ...localProxy('identity', 8008),
-  ...localProxy('stream', 8005),
-  ...localProxy('notification', 8009),
-  // ...localProxy('grove-access-controls', 8080),
-  // ...localProxy('tenant-management', 9023),
-  // ...localProxy('grove-time-off', 9007),
-  // ...localProxy('storage', 9022),
+  // ...localProxy('core', 8000),
+  // ...localProxy('identity', 8008),
+  // ...localProxy('stream', 8005),
+  // ...localProxy('notification', 8009),
+  ...localProxy('v1', 8000),
   '/api': {
     target: process.env.NEXT_APP_PROXY || 'http://localhost:8000',
     changeOrigin: true,

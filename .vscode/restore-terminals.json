@@ -30,8 +30,8 @@
     {
       "splitTerminals": [
         {
-          "name": "shop-core-service",
-          "commands": ["cd ./services/shop-core/", "yarn start"]
+          "name": "api-gateway-service",
+          "commands": ["cd ./services/api-gateway/", "yarn start"]
         }
       ]
     },
@@ -40,6 +40,14 @@
         {
           "name": "webapp",
           "commands": ["cd ./services/webapp/", "npm run dev"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "services-deployment",
+          "commands": ["docker-compose up"]
         }
       ]
     }

@@ -1,7 +1,30 @@
+import React from 'react'
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+
 import { HeadTag, MainLayout, ProductView, PaginationBar } from '@components'
+import { productService } from '@services'
 
 const ProductPage: NextPage = () => {
+  const [products, setProducts] = React.useState([])
+  const [totalPage, setTotalPage] = React.useState(1)
+  const router = useRouter()
+  React.useEffect(() => {
+    const initComponent = async () => {
+      const { page = '1', size = '8' } = router.query
+      const { products, totalPage } = await productService
+        .getView({ page: parseInt(page as string), size: parseInt(size as string) })
+      setProducts(products || [])
+      setTotalPage(totalPage)
+    }
+
+    if (!router.isReady) {
+      return
+    }
+
+    initComponent()
+  }, [router.isReady, router.query])
+
   const Main: React.FC = () => (
     <div>
       <div className="product-area section">
@@ -13,8 +36,8 @@ const ProductPage: NextPage = () => {
               </div>
             </div>
           </div>
-          <PaginationBar pageQuantity={8} />
-          <ProductView />
+          <PaginationBar pageQuantity={totalPage} />
+          <ProductView products={products} />
         </div>
       </div>
       {/* End Most Popular Area */}

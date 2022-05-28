@@ -198,7 +198,9 @@ export const Header: React.FunctionComponent = () => {
                         <div className="nav-inner">
                           <ul className="nav main-menu menu navbar-nav">
                             <li className="active">
-                              <a href="#">Home</a>
+                              <Link href="/">
+                                <a href="#">Home</a>
+                              </Link>
                             </li>
                             <li>
                               <Link href="/product">Product</Link>

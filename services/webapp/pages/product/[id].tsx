@@ -3,16 +3,23 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { HeadTag, MainLayout } from '@components'
+import { productService } from '@services'
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter()
-  const [id, setId] = React.useState(null)
+  const [product, setProduct] = React.useState(null)
 
   React.useEffect(() => {
     if (!router.isReady) {
       return
     }
-    setId(router.query.id)
+
+    const initComponent = async () => {
+      const product = await productService.getById(parseInt(router.query.id as string))
+      setProduct(product)
+    }
+
+    initComponent()
   }, [router.isReady])
 
   const Main: React.FC = () => (
@@ -369,7 +376,7 @@ const ProductDetailPage: NextPage = () => {
 
   return (
     <div>
-      <HeadTag title={`Product ID: ${id}`} />
+      <HeadTag title={`Product ID: ${product? product.id : null}`} />
       <MainLayout render={() => <Main />} />
     </div>
   )

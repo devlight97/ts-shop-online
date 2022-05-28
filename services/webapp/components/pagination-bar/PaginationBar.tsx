@@ -17,7 +17,7 @@ const renderPageNumberList = ({ total, currentPage }: { total: number; currentPa
   return (
     <ul className="nav nav-tabs" id="myTab" role="tablist">
       {items.map((num: number) => (
-        <PageNumber active={num === currentPage ? true : false} num={num} />
+        <PageNumber key={num} active={num === currentPage ? true : false} num={num} />
       ))}
     </ul>
   )
@@ -34,10 +34,9 @@ export const PaginationBar: React.FC<IProps> = ({ pageQuantity = 1 }) => {
 
     const { page } = router.query
     if (isNil(page)) {
-      router.push(`${router.asPath}?page=1`)
+      router.push(`${router.asPath}?page=1&size=8`)
       return
     }
-
     setCurrentPage(parseInt(page as string))
   }, [router.isReady])
 

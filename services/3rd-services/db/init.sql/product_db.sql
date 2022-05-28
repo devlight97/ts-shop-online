@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS product_db;
 CREATE DATABASE product_db;
-use product_db;
+USE product_db;
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -20,6 +20,7 @@ CREATE TABLE orders (
   id INT PRIMARY KEY AUTO_INCREMENT,
   total_price INT,
   address TEXT,
+  state TEXT,
   created_at DATE,
   created_by INT
 );
@@ -42,6 +43,7 @@ CREATE TABLE product_fields (
 DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
   id INT PRIMARY KEY AUTO_INCREMENT,
+  picture_id INT,
   content TEXT
 );
 DROP TABLE IF EXISTS pictures;

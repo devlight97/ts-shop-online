@@ -29,7 +29,6 @@ export class AuthMiddleware implements NestMiddleware<Request, Response> {
     const payload = await this.checkIfTokenIsValid(accessToken)
     await this.checkIfSessionIsValid(payload.userId, payload.sessionId)
 
-    console.log('test ------------------- : AuthMiddleware')
     next()
   }
 

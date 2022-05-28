@@ -1,14 +1,19 @@
 package product.core.product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import product.core.product.dtos.ProductDto.CreateProductRequest;
+import product.core.product.ProductDto.CreateProductRequest;
+import product.core.product.ProductDto.ProductViewDto;
 
 @RestController
 @RequestMapping("product")
@@ -18,26 +23,35 @@ public class ProductController {
         public String brief;
     }
 
-    // @Autowired
-    // TestService service;
+    @Autowired
+    ProductService service;
 
     @GetMapping("view")
-    public ResponseEntity<String> getProductView() {
-        // TestUser user = this.service.getTestUser();
-        String result = "product list";
-        return ResponseEntity.ok(result);
+    public ResponseEntity<ProductViewDto> getProductView(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
+        return ResponseEntity.ok(this.service.getView(page, size));
     }
 
     @GetMapping("view/{id}")
-    public ResponseEntity<String> getProductDetail(@PathVariable("id") String id) {
-        // TestUser user = this.service.getTestUser();
-        String result = "product id: " + id;
-        return ResponseEntity.ok(result);
+    public ResponseEntity<Object> getProductDetail(@PathVariable("id") int id) {
+        return ResponseEntity.ok(this.service.getById(id));
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<String> createProduct(@RequestBody() CreateProductRequest product) {
-        String result = "Created product success: " + product.name + product.brief + product.price + product.postId;
-        return ResponseEntity.ok(result);
-    } 
+    public ResponseEntity<ProductEntity> createProduct(@RequestBody() CreateProductRequest productRequest) {
+        ProductEntity product = ProductDto.toEntity(productRequest);
+
+        return ResponseEntity.ok(this.service.create(product));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<ProductEntity> updateProduct(@RequestBody() ProductEntity productRequest) {
+        return ResponseEntity.ok(this.service.update(productRequest));
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteProduct(@PathVariable("id") int id) {
+        this.service.deleteById(id);
+    }
 }

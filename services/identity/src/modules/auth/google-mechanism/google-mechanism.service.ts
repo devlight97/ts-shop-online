@@ -23,7 +23,6 @@ export class GoogleMechanismService {
       },
       { expiresIn: '5m' },
     )
-    console.log(accessToken)
     // TODO: caching session
     const redirectUrl = `${WEB_APP_HOST}?access_token=${accessToken}`
 

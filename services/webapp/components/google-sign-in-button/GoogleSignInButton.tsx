@@ -25,7 +25,7 @@ export const GoogleSignInButton: React.FunctionComponent = () => {
         id="g_id_onload"
         data-client_id="878722088107-g3a1a44g52ushfvm134i5976dhn9gb54.apps.googleusercontent.com"
         data-ux_mode="redirect"
-        data-login_uri="/api/identity/auth/google/callback"
+        data-login_uri="/api/v1/identity/auth/google/callback"
       ></div>
       <div className="g_id_signin" data-type="standard" data-size="large" data-width="300"></div>
     </div>
