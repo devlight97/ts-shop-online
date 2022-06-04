@@ -3,22 +3,34 @@ import { useRouter } from 'next/router'
 import { isNil } from 'lodash'
 
 import { GoogleSignInButton } from '@components/google-sign-in-button'
-// import { GoogleSignIn } from '@components/google-sign-in.component'
+import React from 'react'
+import { useModelProvider } from '@models/model.provider'
+import { observer } from 'mobx-react-lite'
 
-const SignInPage: NextPage = () => {
-	const router = useRouter()
-	const accessToken = router.query?.access_token as string
+const SignInPage: NextPage = observer(() => {
+  const router = useRouter()
+  const { authModel: { onSignUpRequest, onSignUpFailure, signInWithGoogle, currentUser } } = useModelProvider()
 
-	if (isNil(accessToken)) {
-		// const error = router.query?.error as string
-	}
+  React.useEffect(() => {
+    if (isNil(currentUser)) {
+      return
+    }
 
-	return (
-		<div>
-			<h2>Sign In Page abc</h2>
-			<GoogleSignInButton />
-		</div>
-	)
-}
+    console.log(currentUser)
+
+    router.push('/')
+  }, [currentUser])
+
+  return (
+    <div>
+      <h2>Sign In Page abc</h2>
+      <GoogleSignInButton
+        onSuccess={signInWithGoogle}
+        onFailure={onSignUpFailure}
+        onRequest={onSignUpRequest}
+      />
+    </div>
+  )
+})
 
 export default SignInPage

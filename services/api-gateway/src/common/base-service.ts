@@ -5,7 +5,7 @@ import { ApiException } from './api-exception'
 
 const handleError = (error: any) => {
   if (isNil(error.response)) {
-    throw new ApiException('', HttpStatus.INTERNAL_SERVER_ERROR)
+    throw new ApiException('api_gateway_error', HttpStatus.INTERNAL_SERVER_ERROR)
   }
   throw new ApiException(error.response?.data?.message, error.response?.data?.status)
 }

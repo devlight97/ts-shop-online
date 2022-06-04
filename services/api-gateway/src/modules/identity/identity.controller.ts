@@ -6,12 +6,6 @@ import { IdentityService } from './identity.service'
 export class IdentityController {
   constructor(private readonly service: IdentityService) {}
 
-  @Get()
-  getHello(@Res() res: Response): string{
-    // return this.svc.getHello()
-    return 'test'
-  }
-
   @Get('test')
   test() {
     return 'test api !!'

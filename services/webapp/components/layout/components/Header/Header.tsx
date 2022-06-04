@@ -1,10 +1,13 @@
 import Link from 'next/link'
 import { Dropdown } from './components/Dropdown'
 import { useModelProvider } from '@models/model.provider'
+import { observer } from 'mobx-react-lite'
+import { isNil } from 'lodash'
 
-export const Header: React.FunctionComponent = () => {
-  const { authModel } = useModelProvider()
-  const { isSignedIn } = authModel
+export const Header: React.FunctionComponent = observer(() => {
+  const {
+    authModel: { isSignedIn, currentUser },
+  } = useModelProvider()
 
   return (
     <div>
@@ -37,15 +40,24 @@ export const Header: React.FunctionComponent = () => {
                     <li>
                       <i className="ti-alarm-clock" /> <a href="#">Daily deal</a>
                     </li>
-                    <li>
-                      <i className="ti-user" /> <a href="#">My account</a>
-                    </li>
-                    <li>
-                      <i className="ti-power-off" />
-                      <Link href="/sign-in">
-                        <a href="/sign-in">Sign In</a>
-                      </Link>
-                    </li>
+                    {
+                      isNil(currentUser)
+                        ? (
+                          <li>
+                            <i className="ti-power-off" />
+                            <Link href="/sign-in">
+                              <a href="/sign-in">Sign In</a>
+                            </Link>
+                          </li>
+                        ) : (
+                          <li>
+                            <i className="ti-user" />
+                            <Link href="/my-profile">
+                              <a href="#">{currentUser?.firstName}</a>
+                            </Link>
+                          </li>
+                        )
+                    }
                   </ul>
                 </div>
                 {/* End Top Right */}
@@ -60,9 +72,11 @@ export const Header: React.FunctionComponent = () => {
               <div className="col-lg-2 col-md-2 col-12">
                 {/* Logo */}
                 <div className="logo">
-                  <a href="index.html">
-                    <img src="images/logo.png" alt="logo" />
-                  </a>
+                  <Link href="/">
+                    <a href="index.html">
+                      <img src="images/logo.png" alt="logo" />
+                    </a>
+                  </Link>
                 </div>
                 {/*/ End Logo */}
                 {/* Search Form */}
@@ -259,4 +273,4 @@ export const Header: React.FunctionComponent = () => {
       </header>
     </div>
   )
-}
+})

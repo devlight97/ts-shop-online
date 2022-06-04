@@ -32,10 +32,10 @@ export const HeadTag: React.FunctionComponent<IProps> = (props: IProps) => {
       <link rel="stylesheet" href="/css/responsive.css" />
 
       {/* <script src="/js/colors.js"></script> */}
-      <script src="/js/jquery.min.js"></script>
-      <script src="/js/jquery-migrate-3.0.0.js"></script>
-      <script src="/js/jquery-ui.min.js"></script>
-      <script src="/js/popper.min.js"></script>
+      {/* <script src="/js/jquery.min.js"></script> */}
+      {/* <script src="/js/jquery-migrate-3.0.0.js"></script>
+      <script src="/js/jquery-ui.min.js"></script> */}
+      {/* <script src="/js/popper.min.js"></script>
       <script src="/js/bootstrap.min.js"></script>
       <script src="/js/slicknav.min.js"></script>
       <script src="/js/owl-carousel.js"></script>
@@ -49,7 +49,7 @@ export const HeadTag: React.FunctionComponent<IProps> = (props: IProps) => {
       <script src="/js/scrollup.js"></script>
       <script src="/js/onepage-nav.min.js"></script>
       <script src="/js/easing.js"></script>
-      <script src="/js/active.js"></script>
+      <script src="/js/active.js"></script> */}
     </Head>
   )
 }

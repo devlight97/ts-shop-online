@@ -11,6 +11,13 @@ const CartPage: NextPage = observer(() => {
     cartModel: { products },
   } = useModelProvider()
 
+  // const router = useRouter()
+
+  React.useEffect(() => {
+    return () => {
+    }
+  }, [])
+
   const Main: React.FC = () => (
     <div>
       <div className="breadcrumbs">

@@ -18,7 +18,7 @@ export const modelProvider: IModelProvider = {
   authModel: authMoel,
   productModel: productModel,
   appModel: appModel,
-  cartModel: cartModel
+  cartModel: cartModel,
 }
 
 const Model = React.createContext<IModelProvider>(modelProvider)

@@ -6,7 +6,7 @@ export const CartFooter: React.FC = () => {
     cartModel: { totalPrice, updateCart, hasDataToBeUpdate },
   } = useModelProvider()
 
-  const handleClickApply = (evt: any) => {
+  const handleClickSaveButton = (evt: any) => {
     evt.preventDefault()
     updateCart()
   }
@@ -17,9 +17,12 @@ export const CartFooter: React.FC = () => {
           <div className="left">
             <div className="coupon">
               <form>
-                <input name="Coupon" placeholder="Enter Your Coupon" />
-                <button className="btn" onClick={handleClickApply}>Apply</button>
-                {hasDataToBeUpdate ? 'should update' : 'no update'}
+                {/* <input name="Coupon" placeholder="Enter Your Coupon" /> */}
+                {hasDataToBeUpdate ? (
+                  <button className="btn" onClick={handleClickSaveButton}>
+                    Save
+                  </button>
+                ) : null}
               </form>
             </div>
             <div className="checkbox">
