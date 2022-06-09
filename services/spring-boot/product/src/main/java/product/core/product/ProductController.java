@@ -1,5 +1,7 @@
 package product.core.product;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import product.core.product.ProductDto.CreateProductRequest;
+import product.core.product.ProductDto.ProductDetailDto;
 import product.core.product.ProductDto.ProductViewDto;
 
 @RestController
@@ -28,14 +31,20 @@ public class ProductController {
 
     @GetMapping("view")
     public ResponseEntity<ProductViewDto> getProductView(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size) {
-        return ResponseEntity.ok(this.service.getView(page, size));
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "8") int size,
+            @RequestParam(value = "brand", defaultValue = "") String brand) {
+        return ResponseEntity.ok(this.service.getView(page, size, brand));
     }
 
     @GetMapping("view/{id}")
-    public ResponseEntity<Object> getProductDetail(@PathVariable("id") int id) {
+    public ResponseEntity<ProductDetailDto> getProductDetail(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.service.getById(id));
+    }
+
+    @GetMapping("brands")
+    public ResponseEntity<List<ProductEntity>> getBrands() {
+        return ResponseEntity.ok(this.service.getBrands());
     }
 
     @PostMapping(value = "")

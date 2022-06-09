@@ -19,6 +19,7 @@ export class AuthModel {
   @action
   signIn = async () => {
     this.isSignedIn = true
+    
   }
 
   @action

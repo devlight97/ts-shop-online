@@ -26,7 +26,7 @@ export const ProductItem: React.FC<IProps> = observer(({ product }) => {
       brief: product.brief,
       count: 1,
       name: product.name,
-      pictureId: product.pictureId,
+      pictureUrl: product.pictureUrl,
       price: product.price,
     }
 
@@ -47,8 +47,8 @@ export const ProductItem: React.FC<IProps> = observer(({ product }) => {
         <div className="product-img">
           <Link href={`/product/${product.id}`}>
             <a href="product-details.html">
-              <img className="default-img" src="https://via.placeholder.com/550x750" alt="#" />
-              <img className="hover-img" src="https://via.placeholder.com/550x750" alt="#" />
+              <img className="default-img" src={product.pictureUrl || 'https://via.placeholder.com/550x750'} alt="#" />
+              <img className="hover-img" src={product.pictureUrl || 'https://via.placeholder.com/550x750'} alt="#" />
             </a>
           </Link>
           <div className="button-head">
@@ -81,10 +81,10 @@ export const ProductItem: React.FC<IProps> = observer(({ product }) => {
             </div>
           </div>
         </div>
-        <div className="product-content">
+        <div className="product-content" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <h3>
             <a href={`/product/${product.id}`}>
-              {product.name} & id: {product.id}
+              {product.name}
             </a>
           </h3>
           <div className="product-price">

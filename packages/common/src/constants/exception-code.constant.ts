@@ -9,7 +9,9 @@ export enum ExceptionCode {
   BadRequest = 'bad_request',
   FormBadRequest = 'form_bad_request',
   InvalidEnum = 'invalid_enum',
+  InvalidAddress = 'invalid_address',
   InvalidEmail = 'invalid_email',
+  InvalidPassword = 'invalid_password',
   InvalidBooleanValue = 'invalid_boolean_value',
   InvalidMongoId = 'invalid_mongo_id',
   InvalidIsoDateString = 'invalid_date_string',
@@ -40,5 +42,5 @@ export enum ExceptionCode {
   Unimplemented = 'unimplemented',
   ModuleUnavailable = 'module_unavailable',
   ExecutionTimeOut = 'execution_time_out',
-  TimeEntryNoMethodSelected = 'time_entry_no_method_selected'
+  TimeEntryNoMethodSelected = 'time_entry_no_method_selected',
 }

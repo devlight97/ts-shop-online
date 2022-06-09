@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, IsNull, PrimaryGeneratedColumn } from 'typeorm'
 
-@Entity()
+@Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number
@@ -14,6 +14,15 @@ export class UserEntity {
   @Column()
   email: string
 
-  @Column()
-  imageUrl: string
+  @Column({ default: null })
+  address?: string
+
+  @Column({ default: 'test' })
+  imageUrl?: string
+
+  @Column({ default: null })
+  password?: string
+
+  @Column({ default: null })
+  phoneNumber?: string
 }

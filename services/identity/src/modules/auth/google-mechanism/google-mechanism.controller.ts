@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Req, Res, Redirect, Body } from '@nestjs/common'
-import { Request, Response } from 'express'
+import { Controller, Get, Post, Body } from '@nestjs/common'
 import { GoogleSignInDto } from './google-mechanism.dto'
 
 import { GoogleMechanismService } from './google-mechanism.service'

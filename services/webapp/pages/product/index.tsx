@@ -11,9 +11,9 @@ const ProductPage: NextPage = () => {
   const router = useRouter()
   React.useEffect(() => {
     const initComponent = async () => {
-      const { page = '1', size = '8' } = router.query
+      const { page = '1', size = '8', brand = null } = router.query
       const { products, totalPage } = await productService
-        .getView({ page: parseInt(page as string), size: parseInt(size as string) })
+        .getView({ page: parseInt(page as string), size: parseInt(size as string), brand: brand?.toString() })
       setProducts(products || [])
       setTotalPage(totalPage)
     }

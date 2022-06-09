@@ -17,10 +17,10 @@ public class ProductEntity {
 
     private String name;
     private String brief;
-    private int postId;
     private int quantity;
     private int price;
-    private int pictureId;
+    private String pictureUrl;
+    private String brand;
     private Date createdAt;
     private int createdBy;
     private Date updatedAt;
@@ -29,19 +29,27 @@ public class ProductEntity {
     public ProductEntity() {
     }
 
-    public ProductEntity(int id, String name, String brief, int postId, int quantity, int price, int pictureId,
+    public ProductEntity(int id, String name, String brief, String brand, int quantity, int price, String pictureUrl,
             Date createdAt, int createdBy, Date updatedAt, int updatedBy) {
         this.id = id;
         this.name = name;
         this.brief = brief;
-        this.postId = postId;
         this.quantity = quantity;
         this.price = price;
-        this.pictureId = pictureId;
+        this.pictureUrl = pictureUrl;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
         this.updatedBy = updatedBy;
+        this.brand = brand;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public int getId() {
@@ -68,14 +76,6 @@ public class ProductEntity {
         this.brief = brief;
     }
 
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -90,14 +90,6 @@ public class ProductEntity {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public int getPictureId() {
-        return pictureId;
-    }
-
-    public void setPictureId(int pictureId) {
-        this.pictureId = pictureId;
     }
 
     public Date getCreatedAt() {
@@ -130,5 +122,13 @@ public class ProductEntity {
 
     public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

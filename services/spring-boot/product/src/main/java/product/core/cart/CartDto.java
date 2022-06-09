@@ -9,7 +9,7 @@ public class CartDto {
         private String brief;
         private int price;
         private int count;
-        private int pictureId;
+        private String pictureUrl;
 
         public ProductCartDto() {
         }
@@ -54,13 +54,14 @@ public class CartDto {
             this.count = count;
         }
 
-        public int getPictureId() {
-            return this.pictureId;
+        public String getPictureUrl() {
+            return pictureUrl;
         }
 
-        public void setPictureId(int pictureId) {
-            this.pictureId = pictureId;
+        public void setPictureUrl(String pictureUrl) {
+            this.pictureUrl = pictureUrl;
         }
+
     }
 
     public static class GetCartDto {

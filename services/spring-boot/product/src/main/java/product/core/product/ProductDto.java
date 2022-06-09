@@ -5,25 +5,27 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import product.core.post.PostEntity;
+
 public class ProductDto {
     public static class CreateProductRequest {
         public String name;
         public String brief;
         public int price;
-        public int postId;
         public int quantity;
-        public int pictureId;
+        public String pictureUrl;
         public int createdBy;
+        public String brand;
 
-        public CreateProductRequest(String name, String brief, int price, int postId, int quantity, int pictureId,
-                int createdBy) {
+        public CreateProductRequest(String name, String brief, int price, int quantity, String pictureUrl,
+                int createdBy, String brand) {
             this.name = name;
             this.brief = brief;
             this.price = price;
-            this.postId = postId;
             this.quantity = quantity;
-            this.pictureId = pictureId;
+            this.pictureUrl = pictureUrl;
             this.createdBy = createdBy;
+            this.brand = brand;
         }
     }
 
@@ -37,13 +39,66 @@ public class ProductDto {
         }
     }
 
+    public static class PostDto {
+        public int id;
+        public String title;
+        public String content;
+        public String pictureUrl;
+
+        public PostDto() {
+        }
+
+        public static PostDto from(PostEntity post) {
+            PostDto postDto = new PostDto();
+            postDto.id = post.getId();
+            postDto.content = post.getContent();
+            return postDto;
+        }
+    }
+
+    public static class ProductDetailDto {
+        public int id;
+        public String name;
+        public String brief;
+        public int price;
+        public int postId;
+        public int quantity;
+        public String pictureUrl;
+        public String brand;
+        public PostDto post;
+
+        public ProductDetailDto() {
+        }
+
+        public static ProductDetailDto from(ProductEntity product, PostEntity post) {
+            PostDto postDto = PostDto.from(post);
+            postDto.id = post.getId();
+            postDto.title = post.getTitle();
+            postDto.content = post.getContent();
+            postDto.pictureUrl = post.getPictureUrl();
+
+            ProductDetailDto productDto = new ProductDetailDto();
+            productDto.id = product.getId();
+            productDto.brief = product.getBrief();
+            productDto.brand = product.getBrand();
+            productDto.name = product.getName();
+            productDto.pictureUrl = product.getPictureUrl();
+            productDto.price = product.getPrice();
+            productDto.quantity = product.getQuantity();
+            productDto.post = postDto;
+
+            return productDto;
+        }
+    }
+
     public static ProductEntity toEntity(CreateProductRequest productRequest) {
         ProductEntity product = new ProductEntity();
         product.setName(productRequest.name);
         product.setBrief(productRequest.brief);
         product.setQuantity(productRequest.quantity);
-        product.setPictureId(productRequest.pictureId);
+        product.setPictureUrl(productRequest.pictureUrl);
         product.setPrice(productRequest.price);
+        product.setBrand(productRequest.brand);
         return product;
     }
 
@@ -52,7 +107,7 @@ public class ProductDto {
         for (ProductEntity product : productEntities) {
             System.out.println("test: " + product.getName());
             products.add(new CreateProductRequest(product.getName(), product.getBrief(), product.getPrice(),
-                    product.getPostId(), product.getQuantity(), product.getPictureId(), product.getCreatedBy()));
+                    product.getQuantity(), product.getPictureUrl(), product.getCreatedBy(), product.getBrand()));
         }
 
         return products;

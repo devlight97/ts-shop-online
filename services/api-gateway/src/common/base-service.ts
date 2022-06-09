@@ -1,52 +1,34 @@
-import { HttpStatus, Injectable } from '@nestjs/common'
+import { Injectable, Logger, HttpException } from '@nestjs/common'
+import { ExceptionCode } from '@packages/common'
 import axios, { AxiosResponse } from 'axios'
-import { isNil } from 'lodash'
-import { ApiException } from './api-exception'
-
-const handleError = (error: any) => {
-  if (isNil(error.response)) {
-    throw new ApiException('api_gateway_error', HttpStatus.INTERNAL_SERVER_ERROR)
-  }
-  throw new ApiException(error.response?.data?.message, error.response?.data?.status)
-}
 
 @Injectable()
 export abstract class BaseService {
   abstract baseUrl: string
 
+  private readonly logger = new Logger(BaseService.name)
+
   async get(path: string) {
-    try {
-      const result: AxiosResponse = await axios.get(`${this.baseUrl}${path}`)
-      return result.data
-    } catch (error) {
-      handleError(error)
-    }
+    return axios.get(`${this.baseUrl}${path}`)
+      .then(result => result.data)
+      .catch(err => { throw new HttpException(err.response?.data?.message, err.response?.data?.status || 500) })
   }
 
   async post(path: string, payload: any) {
-    try {
-      const result: AxiosResponse = await axios.post(`${this.baseUrl}${path}`, payload)
-      return result.data
-    } catch (error) {
-      handleError(error)
-    }
+    return axios.post(`${this.baseUrl}${path}`, payload)
+      .then(result => result.data)
+      .catch(err => { throw new HttpException(err.response?.data?.message, err.response?.data?.status || 500) })
   }
 
   async put(path: string, payload: any) {
-    try {
-      const result: AxiosResponse = await axios.put(`${this.baseUrl}${path}`, payload)
-      return result.data
-    } catch (error) {
-      handleError(error)
-    }
+    return axios.put(`${this.baseUrl}${path}`, payload)
+      .then(result => result.data)
+      .catch(err => { throw new HttpException(err.response?.data?.message, err.response?.data?.status || 500) })
   }
 
   async delete(path: string) {
-    try {
-      const result: AxiosResponse = await axios.delete(`${this.baseUrl}${path}`)
-      return result.data
-    } catch (error) {
-      handleError(error)
-    }
+    return axios.delete(`${this.baseUrl}${path}`)
+      .then(result => result.data)
+      .catch(err => { throw new HttpException(err.response?.data?.message, err.response?.data?.status || 500) })
   }
 }

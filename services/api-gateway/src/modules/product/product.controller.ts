@@ -27,6 +27,11 @@ export class ProductController {
     return this.service.get(req.url)
   }
 
+  @Get('brands')
+  getBrands(@Req() req: Request) {
+    return this.service.get(req.url)
+  }
+
   @Post()
   createProduct(@Req() req: Request, @Body() body) {
     return this.service.post(req.url, body)

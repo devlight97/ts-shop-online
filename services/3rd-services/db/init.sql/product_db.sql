@@ -6,10 +6,10 @@ CREATE TABLE products (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name TEXT,
   brief TEXT,
-  post_id INT,
   quantity INT,
   price INT,
-  picture_id INT,
+  picture_url TEXT,
+  brand TEXT,
   created_at DATE,
   created_by INT,
   updated_at INT,
@@ -43,8 +43,10 @@ CREATE TABLE product_fields (
 DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  picture_id INT,
-  content TEXT
+  title TEXT,
+  picture_url TEXT,
+  content TEXT,
+  product_id INT
 );
 DROP TABLE IF EXISTS pictures;
 CREATE TABLE pictures (

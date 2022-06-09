@@ -1,13 +1,44 @@
-import Link from 'next/link'
-import { Dropdown } from './components/Dropdown'
-import { useModelProvider } from '@models/model.provider'
-import { observer } from 'mobx-react-lite'
 import { isNil } from 'lodash'
+import { observer } from 'mobx-react-lite'
+import Link from 'next/link'
+import React from 'react'
+
+import { useModelProvider } from '@models/model.provider'
+
+import { Dropdown } from './components/Dropdown'
+import { productService } from '@services'
+import { useRouter } from 'next/router'
 
 export const Header: React.FunctionComponent = observer(() => {
   const {
     authModel: { isSignedIn, currentUser },
   } = useModelProvider()
+
+  const [showBrandDropdown, setShowBrandDropdown] = React.useState(false)
+  const [brands, setBrands] = React.useState([])
+  const [currentPath, setCurrentPath] = React.useState('')
+
+  const toggleBrandDropdown = () => {
+    setShowBrandDropdown(!showBrandDropdown)
+  }
+
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if (!router.isReady) {
+      return
+    }
+    setCurrentPath(router.asPath.split('/')[1])
+  }, [router.isReady])
+
+  React.useEffect(() => {
+    const initialize = async () => {
+      const brandList = await productService.getBrands()
+      setBrands(brandList)
+    }
+
+    initialize()
+  }, [])
 
   return (
     <div>
@@ -50,12 +81,20 @@ export const Header: React.FunctionComponent = observer(() => {
                             </Link>
                           </li>
                         ) : (
-                          <li>
-                            <i className="ti-user" />
-                            <Link href="/my-profile">
-                              <a href="#">{currentUser?.firstName}</a>
-                            </Link>
-                          </li>
+                          <ul>
+                            <li>
+                              <i className="ti-user" />
+                              <Link href="/my-profile">
+                                <a href="#">{currentUser?.firstName}</a>
+                              </Link>
+                            </li>
+                            <li>
+                              <i className="ti-power-off" />
+                              <Link href="/sign-out">
+                                <a href="#">Sign out</a>
+                              </Link>
+                            </li>
+                          </ul>
                         )
                     }
                   </ul>
@@ -104,7 +143,7 @@ export const Header: React.FunctionComponent = observer(() => {
                 <div className="search-bar-top">
                   <div className="search-bar">
                     <select>
-                      <option defaultValue="selected">All Category</option>
+                      <option defaultValue="selected">All Brands</option>
                       <option>watch</option>
                       <option>mobile</option>
                       <option>kid’s item</option>
@@ -196,12 +235,20 @@ export const Header: React.FunctionComponent = observer(() => {
             <div className="cat-nav-head">
               <div className="row">
                 <div className="col-lg-3">
-                  <div className="all-category">
-                    <h3 className="cat-heading">
-                      <i className="fa fa-bars" aria-hidden="true" />
-                      CATEGORIES
+                  <div className="all-category" style={{ backgroundColor: showBrandDropdown ? '#F7941D' : '#333333' }}>
+                    <h3 className="cat-heading" onClick={toggleBrandDropdown}>
+                      {
+                        showBrandDropdown
+                          ? <i className="fa fa-times" aria-hidden="true"></i>
+                          : <i className="fa fa-bars" aria-hidden="true" />
+                      }
+                      BRANDS
                     </h3>
-                    <Dropdown />
+                    {
+                      showBrandDropdown
+                        ? <Dropdown data={brands} onClick={toggleBrandDropdown}/>
+                        : null
+                    }
                   </div>
                 </div>
                 <div className="col-lg-9 col-12">
@@ -211,12 +258,13 @@ export const Header: React.FunctionComponent = observer(() => {
                       <div className="navbar-collapse">
                         <div className="nav-inner">
                           <ul className="nav main-menu menu navbar-nav">
-                            <li className="active">
+                            <li className={currentPath === '' ? 'active' : ''}>
+                              {/* <li className="active"> */}
                               <Link href="/">
                                 <a href="#">Home</a>
                               </Link>
                             </li>
-                            <li>
+                            <li className={currentPath === 'product' ? 'active' : ''}>
                               <Link href="/product">Product</Link>
                             </li>
                             <li>
@@ -255,8 +303,10 @@ export const Header: React.FunctionComponent = observer(() => {
                                 </li>
                               </ul>
                             </li>
-                            <li>
-                              <a href="contact.html">Contact Us</a>
+                            <li className={currentPath === 'contact' ? 'active' : ''}>
+                              <Link href="/contact">
+                                <a href="contact">Contact Us</a>
+                              </Link>
                             </li>
                           </ul>
                         </div>

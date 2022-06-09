@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import React from 'react'
+import { isNil } from 'lodash'
 
 interface IProps {
   num: number
@@ -10,6 +11,7 @@ interface IProps {
 export const PageNumber: React.FC<IProps> = ({ num, active }) => {
   const router = useRouter()
   const [size, setSize] = React.useState(4)
+  const [brand, setBrand] = React.useState('')
 
   React.useEffect(() => {
     if (!router.isReady) {
@@ -17,10 +19,9 @@ export const PageNumber: React.FC<IProps> = ({ num, active }) => {
     }
 
     setSize(parseInt(router.query.size as string) || 4)
-
+    setBrand(router.query.brand as string || '')
   }, [router.isReady])
-
-  const pageUrl = router.asPath.split('?')[0] + `?page=${num}&size=${size}`
+  const pageUrl = router.asPath.split('?')[0] + `?page=${num}&size=${size}${isNil(brand) ? '' : '&brand=' + brand}`
 
   return (
     <li className="nav-item">

@@ -5,7 +5,7 @@ export interface IProduct {
   postId: number
   quantity: number
   price: number
-  pictureId: number
+  pictureUrl: string
 }
 
 export interface IProductCart {
@@ -14,7 +14,7 @@ export interface IProductCart {
   brief: string
   count: number
   price: number
-  pictureId: number
+  pictureUrl: string
 }
 
 export interface ICart {

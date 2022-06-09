@@ -7,6 +7,7 @@ import { ModelProvider, modelProvider, useModelProvider } from 'models/model.pro
 import { setAccessToken } from '@services'
 import { observer } from 'mobx-react-lite'
 import { identityService } from '@services/identity.service'
+import { Notification } from '@components/notification'
 
 const MyApp: React.FC<AppProps> = observer(({ Component, pageProps }) => {
   const {
@@ -21,7 +22,7 @@ const MyApp: React.FC<AppProps> = observer(({ Component, pageProps }) => {
         identityService.verifyToken(accessToken)
           .then(user => setCurrentUser(user))
           .catch(err => {
-            console.log(err)
+            // Router.push('/error')
           })
       }
       !isNil(accessToken) && setAccessToken(accessToken)
@@ -34,6 +35,7 @@ const MyApp: React.FC<AppProps> = observer(({ Component, pageProps }) => {
   return (
     <ModelProvider value={{ ...modelProvider }}>
       <Component {...pageProps} />
+      <Notification />
     </ModelProvider>
   )
 })

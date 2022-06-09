@@ -1,6 +1,8 @@
 import * as React from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import parseHtml from 'html-react-parser'
 
 import { HeadTag, MainLayout } from '@components'
 import { productService } from '@services'
@@ -22,6 +24,8 @@ const ProductDetailPage: NextPage = () => {
     initComponent()
   }, [router.isReady])
 
+  console.log(product?.post?.content)
+
   const Main: React.FC = () => (
     <section className="blog-single section">
       <div className="container">
@@ -31,10 +35,10 @@ const ProductDetailPage: NextPage = () => {
               <div className="row">
                 <div className="col-12">
                   <div className="image">
-                    <img src="https://via.placeholder.com/950x460" alt="#" />
+                    <img src={product?.post?.pictureUrl || 'https://via.placeholder.com/950x460'} alt="#" />
                   </div>
                   <div className="blog-detail">
-                    <h2 className="blog-title">What are the secrets to start- up success?</h2>
+                    <h2 className="blog-title">{product?.post?.title}</h2>
                     <div className="blog-meta">
                       <span className="author">
                         <a href="#">
@@ -51,35 +55,8 @@ const ProductDetailPage: NextPage = () => {
                         </a>
                       </span>
                     </div>
-                    <div className="content">
-                      <p>
-                        What a crazy time. I have five children in colleghigh school graduates.jpge or pursing post
-                        graduate studies Each of my children attends college far from home, the closest of which is more
-                        than 800 miles away. While I miss being with my older children, I know that a college experience
-                        can be the source of great growth and experience can be the source of source of great growth and
-                        can provide them with even greater in future.
-                      </p>
-                      <blockquote>
-                        {' '}
-                        <i className="fa fa-quote-left" /> Do what you love to do and give it your very best. Whether
-                        it's business or baseball, or the theater, or any field. If you don't love what you're doing and
-                        you can't give it your best, get out of it. Life is too short. You'll be an old man before you
-                        know it. risus. Ut tincidunt, erat eget feugiat eleifend, eros magna dapibus diam.
-                      </blockquote>
-                      <p>
-                        What a crazy time. I have five children in colleghigh school graduates.jpge or pursing post
-                        graduate studies Each of my children attends college far from home, the closest of which is more
-                        than 800 miles away. While I miss being with my older children, I know that a college experience
-                        can be the source of great growth and experience can be the source of source of great growth and
-                        can provide them with even greater in future.
-                      </p>
-                      <p>
-                        What a crazy time. I have five children in colleghigh school graduates.jpge or pursing post
-                        graduate studies Each of my children attends college far from home, the closest of which is more
-                        than 800 miles away. While I miss being with my older children, I know that a college experience
-                        can be the source of great growth and experience can be the source of source of great growth and
-                        can provide them with even greater in future.
-                      </p>
+                    <div className="content" style={{ display: 'flex', flexDirection: 'column' }}>
+                      {parseHtml(product?.post?.content || '')}
                     </div>
                   </div>
                   <div className="share-social">
@@ -258,11 +235,13 @@ const ProductDetailPage: NextPage = () => {
                 {/* Single Post */}
                 <div className="single-post">
                   <div className="image">
-                    <img src="https://via.placeholder.com/100x100" alt="#" />
+                    <img src="https://eng.ox.ac.uk/media/1902/coding-1853305_1280.jpg?anchor=center&mode=crop&width=950&height=460&rnd=132457777930000000" alt="#" />
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      <Link href="/product/1">
+                        <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      </Link>
                     </h5>
                     <ul className="comment">
                       <li>
@@ -280,11 +259,13 @@ const ProductDetailPage: NextPage = () => {
                 {/* Single Post */}
                 <div className="single-post">
                   <div className="image">
-                    <img src="https://via.placeholder.com/100x100" alt="#" />
+                    <img src="https://www.4lifeinnovations.com/wp-content/uploads/2019/02/Thumbnail-ff-1.jpg" alt="#" />
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      <Link href="/product/5">
+                        <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      </Link>
                     </h5>
                     <ul className="comment">
                       <li>
@@ -302,11 +283,13 @@ const ProductDetailPage: NextPage = () => {
                 {/* Single Post */}
                 <div className="single-post">
                   <div className="image">
-                    <img src="https://via.placeholder.com/100x100" alt="#" />
+                    <img src="https://images.hepsiburada.net/assets/Bilgisayar/ProductDesc/asus-tp300ld-3.jpg" alt="#" />
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      <Link href="/product/11">
+                        <a href="#">Top 10 Beautyful Women Dress in the world</a>
+                      </Link>
                     </h5>
                     <ul className="comment">
                       <li>
@@ -376,7 +359,7 @@ const ProductDetailPage: NextPage = () => {
 
   return (
     <div>
-      <HeadTag title={`Product ID: ${product? product.id : null}`} />
+      <HeadTag title={`Product ID: ${product ? product.id : null}`} />
       <MainLayout render={() => <Main />} />
     </div>
   )

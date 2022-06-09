@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common'
+import { JwtModule, JwtService } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
-
 import { CoreModule } from '@packages/core'
-import { AuthModule } from './modules/auth/auth.module'
 import { DB_CONFIG } from '@packages/env'
+
 import { UserEntity } from './entities/user.entity'
+import { AuthModule } from './modules/auth/auth.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
-    AuthModule, CoreModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -19,6 +20,7 @@ import { UserEntity } from './entities/user.entity'
       entities: [UserEntity],
       synchronize: true,
     }),
+    AuthModule, CoreModule, UserModule,
   ],
   controllers: [],
   providers: [],

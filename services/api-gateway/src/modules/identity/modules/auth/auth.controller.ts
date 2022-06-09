@@ -15,4 +15,14 @@ export class AuthController {
   async googleSignIn(@Req() req: Request, @Body() body) {
     return this.service.post(req.url, body)
   }
+
+  @Post('local/sign-in')
+  async signIn(@Req() req: Request, @Body() body): Promise<string> {
+    return this.service.post(req.url, body)
+  }
+
+  @Post('local/sign-up')
+  async signUp(@Req() req: Request, @Body() body): Promise<string> {
+    return this.service.post(req.url, body)
+  }
 }

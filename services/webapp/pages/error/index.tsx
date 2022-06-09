@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-import { ERROR_LOGIN_FAIL, displayErrorReason } from './constants'
+import { HeadTag, MainLayout } from '@components'
 
 const ErrorText = styled.div`
     color: red;
@@ -11,12 +11,26 @@ const ErrorText = styled.div`
 
 const Error: NextPage = () => {
 	const router = useRouter()
-	const reason = router.query?.reason as string || ''
+	const [reason, setReason] = React.useState(null)
+
+	React.useEffect(() => {
+		if (!router.isReady) {
+			return
+		}
+		setReason(router.query?.reason as string || '')
+	}, [router.isReady])
+
+	const Main: React.FC = () => (
+		<div>
+			{/* <ErrorText>{displayErrorReason(reason?.toUpperCase())}</ErrorText> */}
+			<ErrorText>{reason?.toUpperCase()}</ErrorText>
+		</div>
+	)
 
 	return (
 		<div>
-			<ErrorText>{displayErrorReason(reason?.toUpperCase())}</ErrorText>
-			Something is fail !!
+			<HeadTag title="Contact Page" />
+			<MainLayout render={() => <Main />} />
 		</div>
 	)
 }

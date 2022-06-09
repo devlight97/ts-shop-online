@@ -1,46 +1,25 @@
+import { get, isNil } from 'lodash'
+import { UserEntity } from 'services/identity/src/entities/user.entity'
+import { Repository } from 'typeorm'
+
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { UserTokenType, ExceptionCode } from '@packages/common'
-import { get, isNil } from 'lodash'
-import { UserEntity } from '../../../entities/user.entity'
-import { Repository } from 'typeorm'
-import { SignUpDto } from './google-mechanism.dto'
-
-import { GoogleOauth2Provider } from './google-oauth2.provider'
 import { InjectRepository } from '@nestjs/typeorm'
+import { ExceptionCode } from '@packages/common'
+
+import { UserProvider } from '../infras/user.provider'
+import { SignUpDto } from './google-mechanism.dto'
 
 const THREE_DAY = 3600 * 24 * 3
 
 @Injectable()
 export class GoogleMechanismService {
-  @Inject() ggOAuth2Provider: GoogleOauth2Provider
-  @Inject() jwtSvc: JwtService
-  @InjectRepository(UserEntity) userRepo: Repository<UserEntity>
+  @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>
+  @Inject() private readonly userProvider: UserProvider
+  @Inject() private readonly jwtSvc: JwtService
 
   getHello(): string {
     return 'Hello World!'
-  }
-
-  async handleGoogleOAuth2Callback(clientId: string, idToken: string): Promise<string> {
-    const payload = await this.ggOAuth2Provider.verify(clientId, idToken)
-    const accessToken = await this.jwtSvc.sign(
-      {
-        username: payload?.email,
-        tokenType: UserTokenType.GoogleAuth,
-      },
-      { expiresIn: '5m' },
-    )
-    const redirectUrl = `/sign-in?access_token=${accessToken}`
-
-    return redirectUrl
-  }
-
-  async createUser(user: Partial<UserEntity>) {
-    await this.userRepo.insert({ ...user })
-  }
-
-  async updateUser(user: Partial<UserEntity>) {
-    await this.userRepo.update({ email: user.email }, user)
   }
 
   async signInWithGoogle(signUpData: SignUpDto): Promise<string> {
@@ -62,10 +41,11 @@ export class GoogleMechanismService {
       imageUrl: get(profile, 'picture', 'Unknowed'),
     }
 
-    isNil(user) && await this.createUser(newUser)
-    !isNil(user) && await this.updateUser(newUser)
+    if (isNil(user)) {
+      const userCreated = await this.userProvider.createUser(newUser)
+      return this.jwtSvc.signAsync({ ...userCreated }, { expiresIn: THREE_DAY })
+    }
 
-    const accessToken = await this.jwtSvc.signAsync(newUser, { expiresIn: THREE_DAY })
-    return accessToken
+    return this.jwtSvc.signAsync({ ...user }, { expiresIn: THREE_DAY })
   }
 }

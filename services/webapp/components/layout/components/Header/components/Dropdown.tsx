@@ -1,35 +1,25 @@
-const MenuIcon: React.FC = () => <i className="fa fa-angle-right" aria-hidden="true" />
+import { isNil } from "lodash"
+import Link from 'next/link'
 
-const data = [
-  {
-    name: 'Thinkpad',
-    link: '',
-  },
-  {
-    name: 'MacBook',
-    link: '',
-  },
-  {
-    name: 'Popular',
-    link: '',
-  },
-  {
-    name: 'Premium',
-    link: '',
-  },
-  {
-    name: 'Other',
-    link: '',
-  },
-]
+const MenuIcon: React.FC = () => <i style={{ color: 'black' }} className="fa fa-angle-right" aria-hidden="true" />
+interface IProps {
+  data: string[]
+  onClick: () => void
+}
 
-export const Dropdown: React.FC = () => {
+export const Dropdown: React.FC<IProps> = ({ data, onClick }) => {
   return (
-    <ul className="main-category" style={{ display: 'none' }}>
-      {data.map((item) => (
-        <li key={item.name}>
-          <a href={item.link}>{item.name}</a>
-          <MenuIcon />
+    <ul className="main-category" style={{ display: null }}>
+      <li>
+        <Link href={`/product?page=1&size=8`}>
+          <a onClick={onClick}>All Brands <MenuIcon /></a>
+        </Link>
+      </li>
+      {data.map((brand: string) => !isNil(brand) && (
+        <li key={brand}>
+          <Link href={`/product?page=1&size=8&brand=${brand}`}>
+            <a onClick={onClick}>{brand} <MenuIcon /></a>
+          </Link>
         </li>
       ))}
     </ul>

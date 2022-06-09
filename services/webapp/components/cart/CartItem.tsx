@@ -25,12 +25,12 @@ export const CartItem: React.FC<IProps> = ({ product }) => {
   return (
     <tr>
       <td className="image" data-title="No">
-        <img src="https://via.placeholder.com/100x100" alt="#" />
+        <img src={product.pictureUrl || 'https://via.placeholder.com/100x100'} alt="#" />
       </td>
       <td className="product-des" data-title="Description">
         <p className="product-name">
           <a href="#">
-            {product.name} : {product.id}
+            {product.name}
           </a>
         </p>
         <p className="product-des">Maboriosam in a tonto nesciung eget distingy magndapibus.</p>
